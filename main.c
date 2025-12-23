@@ -24,6 +24,7 @@ void bubble_sort(int arr[], int n);
 void clear_buffer();
 int linear_search (int arr[], int n, int target);
 void jeda();
+int random_num_char();
 
 
 //fungsi narasi
@@ -113,6 +114,14 @@ int input_valid(int min, int max){
 
 int random_num(){
 	return rand()%10;
+}
+
+int random_char(){
+	return rand()%26 + 'a';
+}
+
+int random_num_char(){
+	return rand()%10 +'0';
 }
 
 void bubble_sort(int arr[], int n){
@@ -405,10 +414,34 @@ void narasi3_2(int pertama2, int *attempt){
 	else{
 		printf("=== RUANGAN ?: HAFALAN MALAPETAKA ===\n");
 		printf("                                                                          Attempt: %d\n", *attempt);
-		printf("Boleh juga...\n");
-		printf("\"Tapi jangan terlalu percaya diri.\"\n");
-		printf ("\"Tantangan selanjutnya bisa membuat otakmu menjadi gila!\"\n");
 		printf("\"Perhatikan setiap angka dengan seksama, karena satu kesalahan bisa berakibat fatal.\"\n");
+	}
+}
+
+void narasi3_3(int pertama3, int *attempt){
+	if (pertama3 == 1){
+		printf("=== RUANGAN ?: HAFALAN MALAPETAKA ===\n");
+		printf("                                                                          Attempt: %d\n", *attempt);	
+		printf ("Wow, menakjubkan..");
+		delay();
+		printf("Selanjutnya adalah yang terakhir");
+		delay();
+		printf ("Bila berhasil, kamu berhak untuk keluar\n");
+		delay();
+		printf("Bila tidak, kamu akan menerima konsekuensinya\n");
+		delay();
+		printf ("SELAMAT BERJUANG\n");
+		
+	}
+	else{
+		printf("=== RUANGAN ?: HAFALAN MALAPETAKA ===\n");
+		printf("Ini adalah yang terakhir\N");
+		delay();
+		printf ("Bila berhasil, kamu berhak untuk keluar\n");
+		delay();
+		printf("Bila tidak, kamu akan menerima konsekuensinya\n");
+		delay();
+		printf ("SELAMAT BERJUANG\n");
 	}
 }
 
@@ -597,8 +630,14 @@ int pintu3_1(int pertama1, int *attempt){
 	int benar = 0;
     for (int i = 0; i < 5; i++) benar = benar * 10 + x[i];
 
-	if (jawab == benar) return 1;
-	else return 0;
+	if (jawab == benar){
+		printf ("Jawabanmu cocok dengan kata sang Pencipta!\n");
+		return 1;
+	}
+	else{
+		printf ("Jawabanmu berbeda. Sang Pencipta menghukummu dan matamu mulai kabur.\n");
+		return 0;
+	};
 }
 int pintu3_2(int pertama2, int *attempt){
 	narasi3_2(pertama2, attempt);
@@ -622,9 +661,35 @@ int pintu3_2(int pertama2, int *attempt){
 	if (jawab == benar) return 1;
 	else return 0;
 }
-//int pintu3_3(int pertama2, int *attempt){
-//	printf ("C");
-//}
+int pintu3_3(int pertama3, int *attempt){
+	narasi3_3(pertama3, attempt);
+	jeda();
+	printf ("\n");
+	printf ("Untuk yang terakhir: ");
+	char x[8] = {random_num_char(), random_char(),random_num_char(),random_char(),random_char(), random_num_char(),random_num_char(), random_char()};
+	for (int i = 0; i < 8; i++){
+		printf ("%d", x[i]);
+		Sleep(1500);
+	}
+	//
+	printf ("\rUntuk yang terakhir: ********\n\n");
+	printf ("Jawabanmu: ");
+	char jawab[8];
+	scanf ("%s", &jawab);
+	int benar = 0;
+	for (int i = 0; i < 8; i++){
+		if (jawab[i] == x[i]) benar++;
+	}
+	
+	if (benar == 8){
+		printf("Jawabanmu cocok dengan kata sang Pencipta!\n");
+		return 1;
+	}
+	else{
+		printf ("Jawabanmu berbeda. Sang Pencipta menghukummu dan matamu mulai kabur.\n");
+		return 0;
+	}
+}
 
 //MAIN (ALUR GAME)
 int main(){
@@ -762,8 +827,8 @@ int main(){
 				}
 				
 				jeda_dan_hapus();
-				
-				hasil_pintu = pintu3_2(pertama1, &attempt);
+			
+				hasil_pintu = pintu3_2(pertama2, &attempt);
 				pertama2 = 0;
 				if (!cek_benar(hasil_pintu)){
 					attempt++;
@@ -771,19 +836,19 @@ int main(){
 				}
 				
 				jeda_dan_hapus();
-//				
-//				hasil_pintu = pintu3_3(pertama1, &attempt);
-//				pertama3 = 0;
-//				if (!cek_benar(hasil_pintu)){
-//					attempt++;
-//					continue;
-//				}
-//						
-//				jeda_dan_hapus();		
-//								
+				
+				hasil_pintu = pintu3_3(pertama3, &attempt);
+				pertama3 = 0;
+				if (!cek_benar(hasil_pintu)){
+					attempt++;
+					continue;
+				}
+						
+				jeda_dan_hapus();		
+								
 //				pintu3ed();
-//				
-//				jeda_dan_hapus();
+				
+				jeda_dan_hapus();
 				
 				break;
 			}
